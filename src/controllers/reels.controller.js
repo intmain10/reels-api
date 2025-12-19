@@ -50,9 +50,18 @@ exports.getReels = async (req, res) => {
     const reels = await Reel.find()
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .select("thumbnailUrl videoUrl caption createdAt");
 
-    res.json(reels);
+    const total = await Reel.countDocuments();
+
+    res.json({
+      page,
+      limit,
+      total,
+      hasNext: skip + reels.length < total,
+      reels,
+    });
   } catch (err) {
     console.error("getReels error:", err);
     res.status(500).json({ error: err.message });

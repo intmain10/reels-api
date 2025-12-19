@@ -5,8 +5,7 @@ const { uploadReel, getReels } = require("../controllers/reels.controller");
 
 const router = express.Router();
 
-router.post("/upload", upload.single("video"), uploadReel);
 router.get("/", getReels);
+router.post("/upload", upload.single("video"), uploadReel);
 
 module.exports = router;
-
